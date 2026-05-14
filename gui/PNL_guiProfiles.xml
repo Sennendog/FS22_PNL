@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<GUIProfiles>
+    <Presets>
+        <Preset name="colorTransparent" value="0 0 0 0"/>
+        <Preset name="colorWhite" value="1 1 1 1"/>
+        <Preset name="colorDisabled" value="0.4 0.4 0.4 1"/>
+        <Preset name="colorGrayHeader" value="0.4 0.4 0.4 1"/>
+        <Preset name="colorListHeaderBackground" value="0 0 0 0.35"/>
+    </Presets>
+
+    <Profile name="PNL_frame" extends="emptyPanel" with="anchorMiddleCenter">
+        <Value name="size" value="1624px 776px"/>
+        <Value name="debugEnabled" value="false"/>
+    </Profile>
+
+    <Profile name="PNL_headerPanel" extends="emptyPanel" with="anchorTopCenter">
+        <Value name="size" value="1500px 64px"/>
+        <Value name="position" value="0px 64px"/>
+    </Profile>
+
+    <Profile name="PNL_headerText" extends="textDefault">
+        <Value name="size" value="800px 64px"/>
+        <Value name="position" value="0px 0px"/>
+        <Value name="textSize" value="31px"/>
+        <Value name="textBold" value="false"/>
+        <Value name="textUpperCase" value="true"/>
+        <Value name="textDisabledColor" value="$preset_colorDisabled"/>
+    </Profile>
+
+    <Profile name="PNL_headerBox" extends="emptyPanel" with="anchorTopCenter">
+        <Value name="size" value="1500px 50px"/>
+        <Value name="position" value="0px 0px"/>
+        <Value name="alignmentX" value="left"/>
+        <Value name="alignmentY" value="middle"/>
+        <Value name="imageColor" value="$preset_colorListHeaderBackground"/>
+        <Value name="flowDirection" value="horizontal"/>
+        <Value name="wrapAround" value="true"/>
+        <Value name="lateralFlowSize" value="200px"/>
+        <Value name="fitToElements" value="false"/>
+        <Value name="autoValidateLayout" value="true"/>
+        <Value name="hasFrame" value="false"/>
+    </Profile>
+
+    <Profile name="PNL_headerCell" extends="ingameMenuFrameHeaderText" with="anchorMiddleLeft">
+        <Value name="textSize" value="20px"/>
+        <Value name="textBold" value="false"/>
+        <Value name="textUpperCase" value="false"/>
+        <Value name="textColor" value="$preset_colorGrayHeader"/>
+        <Value name="textAlignment" value="center"/>
+        <Value name="textVerticalAlignment" value="middle"/>
+    </Profile>
+
+    <Profile name="PNL_headerCellFirst" extends="PNL_headerCell">
+        <Value name="textAlignment" value="left"/>
+    </Profile>
+
+    <Profile name="PNL_ingameMenuListBox" extends="emptyPanel" with="anchorTopCenter">
+        <Value name="size" value="1600px 756px"/>
+        <Value name="position" value="0px -50px"/>
+    </Profile>
+
+    <Profile name="PNL_list" extends="ingameMenuContractsList" with="anchorTopCenter">
+        <Value name="size" value="1500px 680px"/>
+        <Value name="position" value="0px -60px"/>
+    </Profile>
+
+    <Profile name="PNL_listItem" extends="ingameMenuContractsListItem" with="anchorBottomLeft">
+        <Value name="size" value="1500px 40.77px"/>
+    </Profile>
+
+    <Profile name="PNL_ingameMenuSlider" extends="verticalListSliderRightDocked">
+        <Value name="size" value="12px 680px"/>
+        <Value name="position" value="0px -60px"/>
+    </Profile>
+
+    <Profile name="PNL_ingameMenuSliderBar" extends="verticalListSliderBar">
+        <Value name="size" value="6px 672px"/>
+    </Profile>
+
+    <Profile name="PNL_rowCell" extends="baseReference">
+        <Value name="textSize" value="18px"/>
+        <Value name="textBold" value="false"/>
+        <Value name="textUpperCase" value="false"/>
+        <Value name="textColor" value="$preset_colorWhite"/>
+        <Value name="textAlignment" value="center"/>
+        <Value name="textVerticalAlignment" value="middle"/>
+    </Profile>
+
+    <Profile name="PNL_rowCellFirst" extends="PNL_rowCell">
+        <Value name="textAlignment" value="left"/>
+        <Value name="textSize" value="18px"/>
+    </Profile>
+</GUIProfiles>

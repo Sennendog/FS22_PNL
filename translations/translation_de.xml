@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<l10n>
+    <texts>
+        <text name="pnl_title" text="Gewinn- &amp; Verlustrechnung"/>
+        <text name="pnl_header_item" text="Posten"/>
+
+        <text name="pnl_block_operations" text="BLOCK I: OPERATIV"/>
+        <text name="pnl_block_financing" text="BLOCK II: FINANZIERUNG"/>
+        <text name="pnl_block_investing" text="BLOCK III: INVESTITIONEN"/>
+        <text name="pnl_grand_total_title" text="GESAMTERGEBNIS G&amp;V"/>
+
+        <text name="pnl_header_current_fy" text="AKTUELLES GJ"/>
+        <text name="pnl_header_fy_minus" text="GJ-"/>
+        <text name="pnl_item_income_products" text="1.1 Erlöse aus Produktverkäufen"/>
+        <text name="pnl_item_income_contract" text="1.2 Erlöse aus Lohnarbeit"/>
+        <text name="pnl_item_expenses_operations" text="1.3 Betriebsausgaben"/>
+        <text name="pnl_item_subtotal_op" text="-> SUMME OPERATIV"/>
+
+        <text name="pnl_item_income_financing" text="2.1 Einnahmen aus Finanzierung"/>
+        <text name="pnl_item_expenses_financing" text="2.2 Finanzierungsausgaben"/>
+        <text name="pnl_item_other" text="2.3 Sonstige Einnahmen/Ausgaben"/>
+        <text name="pnl_item_subtotal_fi" text="-> SUMME FINANZIERUNG"/>
+
+        <text name="pnl_item_income_assets" text="3.1 Erlöse aus Anlagenverkäufen"/>
+        <text name="pnl_item_expenses_assets" text="3.2 Ausgaben für Anlagenkäufe"/>
+        <text name="pnl_item_subtotal_in" text="-> SUMME INVESTITIONEN"/>
+    </texts>
+</l10n>

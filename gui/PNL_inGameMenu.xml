@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<GUI name="PNL_inGameMenu">
+    <GuiElement type="empty" profile="PNL_frame">
+        <GuiElement type="empty" profile="PNL_headerPanel">
+            <GuiElement type="text" profile="PNL_headerText" text="$l10n_pnl_title"/>
+        </GuiElement>
+
+        <GuiElement type="empty" profile="PNL_ingameMenuListBox" id="mainBox">
+            <GuiElement type="bitmap" profile="PNL_headerBox" id="tableHeaderBox">
+                <GuiElement type="text" profile="PNL_headerCellFirst" position="0px 0px" size="350px 40.77px" text="$l10n_pnl_header_item" id="headerItem"/>
+                <GuiElement type="text" profile="PNL_headerCell" position="350px 0px" size="230px 40.77px" text="" id="headerYear1"/>
+                <GuiElement type="text" profile="PNL_headerCell" position="580px 0px" size="230px 40.77px" text="" id="headerYear2"/>
+                <GuiElement type="text" profile="PNL_headerCell" position="810px 0px" size="230px 40.77px" text="" id="headerYear3"/>
+                <GuiElement type="text" profile="PNL_headerCell" position="1040px 0px" size="230px 40.77px" text="" id="headerYear4"/>
+                <GuiElement type="text" profile="PNL_headerCell" position="1270px 0px" size="230px 40.77px" text="" id="headerYear5"/>
+            </GuiElement>
+
+            <GuiElement type="smoothList" profile="PNL_list" id="pnlTable" focusInit="onOpen" listSectionHeader="section">
+                <GuiElement type="listItem" profile="PNL_listItem" name="fieldCalculatorRowTemplate">
+                    <GuiElement type="bitmap" profile="emptyPanel">
+                        <GuiElement type="text" profile="PNL_rowCellFirst" position="0px 0px" size="350px 40.77px" name="rowLabel"/>
+                        <GuiElement type="text" profile="PNL_rowCell" position="350px 0px" size="230px 40.77px" name="year1"/>
+                        <GuiElement type="text" profile="PNL_rowCell" position="580px 0px" size="230px 40.77px" name="year2"/>
+                        <GuiElement type="text" profile="PNL_rowCell" position="810px 0px" size="230px 40.77px" name="year3"/>
+                        <GuiElement type="text" profile="PNL_rowCell" position="1040px 0px" size="230px 40.77px" name="year4"/>
+                        <GuiElement type="text" profile="PNL_rowCell" position="1270px 0px" size="230px 40.77px" name="year5"/>
+                    </GuiElement>
+                </GuiElement>
+                <GuiElement type="listItem" profile="ingameMenuContractsListCategory" name="section">
+                    <GuiElement type="text" profile="ingameMenuContractsListCategoryTitle" text="Section Title" name="title"/>
+                </GuiElement>
+            </GuiElement>
+
+            <GuiElement type="threePartBitmap" profile="PNL_ingameMenuSlider">
+                <GuiElement type="slider" profile="PNL_ingameMenuSliderBar" dataElementId="pnlTable" handleFocus="true" focusInit="onOpen"/>
+            </GuiElement>
+        </GuiElement>
+    </GuiElement>
+</GUI>

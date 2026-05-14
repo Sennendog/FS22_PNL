@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<modDesc descVersion="79">
+    <author>HENNE</author>
+    <version>1.0.0.0</version>
+    <title>
+        <en>PnL Balance Sheet</en>
+        <de>PnL Balance Sheet</de>
+    </title>
+    <description>
+<en>
+<![CDATA[
+This mod creates an additional yearly P&L Balance Sheet in addition to the standard monthly cashflow overview.
+
+It shows proft & loss blocks for the current fiscal year, as well as the previous 4 fiscal years.
+A fiscal year ranges from January to December of a year.
+
+It displays aggregated profit & loss statements for the following income and expense types:
+
+BLOCK I: OPERATIONS
+- 1.1 income from sold products
+- 1.2 income from contract work
+- 1.3 expenses from operations: buying seeds, fertilizer, water, fuel, products, raw materials, distribution cost, repair and maintenance costs
+- 1.4 SUBTOTAL profit/loss from operations
+
+BLOCK II: FINANCING
+- 2.1 income from financing activities (loans)
+- 2.2 expenses from financing activites (loan interest, loas repayments)
+- 2.3 other income/expenses
+- 2.4 SUBTOTAL profit/loss from financing
+
+BLOCK III: INVESTING:
+- 3.1 income from selling land, equipment, buildings
+- 3.2 expenses from buying land, equipment, buildings
+- 3.3 SUBTOTAL profit/loss from investing
+
+GRAND TOTAL P&L FROM BLOCKS I+II+III for discal period
+
+
+]]>
+</en>
+</description>
+    <iconFilename>icon_pnl.dds</iconFilename>
+    <multiplayer supported="true"/>
+    <l10n filenamePrefix="translations/translation"/>
+
+    <extraSourceFiles>
+        <sourceFile filename="src/pnl_main.lua"/>
+    </extraSourceFiles>
+</modDesc>
