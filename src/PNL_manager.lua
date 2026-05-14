@@ -4,6 +4,7 @@ local PNL_manager_mt = Class(PNL_manager, AbstractManager)
 function PNL_manager.new(customMt)
     local self = PNL_manager:superClass().new(customMt or PNL_manager_mt)
     self.farmData = {}
+    self.hasBackfilledHistory = false
     return self
 end
 
@@ -45,12 +46,40 @@ function PNL_manager:onPeriodChanged()
         completedPeriod = 11
         completedYear = currentYear - 1
     end
+    if not self.hasBackfilledHistory then
+        self:backfillMissingHistory(completedYear, completedPeriod)
+        self.hasBackfilledHistory = true
+    end
     for _, farm in pairs(g_farmManager:getFarms()) do
         if farm.farmId ~= FarmManager.SPECTATOR_FARM_ID then
             local stats = farm.stats
             if #stats.financesHistory > 0 then
                 local archived = stats.financesHistory[#stats.financesHistory]
                 self:storeMonthlyData(farm.farmId, completedYear, completedPeriod, archived)
+            end
+        end
+    end
+end
+
+function PNL_manager:backfillMissingHistory(completedYear, completedPeriod)
+    for _, farm in pairs(g_farmManager:getFarms()) do
+        if farm.farmId ~= FarmManager.SPECTATOR_FARM_ID then
+            local stats = farm.stats
+            local historyCount = #stats.financesHistory
+            if historyCount > 0 then
+                local year = completedYear
+                local period = completedPeriod
+                for i = historyCount, 1, -1 do
+                    if year ~= completedYear then
+                        break
+                    end
+                    self:storeMonthlyData(farm.farmId, year, period, stats.financesHistory[i])
+                    period = period - 1
+                    if period < 0 then
+                        period = 11
+                        year = year - 1
+                    end
+                end
             end
         end
     end
@@ -263,6 +292,7 @@ function PNL_manager:loadFromXMLFile()
         farmIdx = farmIdx + 1
     end
     xmlFile:delete()
+    self.hasBackfilledHistory = (next(self.farmData) ~= nil)
 end
 
 g_pnl_manager = PNL_manager.new()
