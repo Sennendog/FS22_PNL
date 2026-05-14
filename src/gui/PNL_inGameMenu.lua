@@ -168,9 +168,9 @@ function PNL_inGameMenu:populateCellForItemInSection(list, section, index, cell)
                 else
                     value = g_pnl_manager:getItemValue(self.yearData[i], itemId)
                     local itemDef = g_pnl_manager.PNL_ITEMS[itemId]
-                    if itemDef and itemDef.isExpense then
-                        value = -value
-                    end
+                    -- if itemDef and itemDef.isExpense then
+                    --    value = -value
+                    -- end
                 end
                 yearCell:setText(g_i18n:formatMoney(value))
                 if value < 0 then
