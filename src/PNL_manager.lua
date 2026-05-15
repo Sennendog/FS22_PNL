@@ -53,10 +53,12 @@ function PNL_manager:onPeriodChanged()
     for _, farm in pairs(g_farmManager:getFarms()) do
         if farm.farmId ~= FarmManager.SPECTATOR_FARM_ID then
             local stats = farm.stats
-            if #stats.financesHistory > 0 then
-                local archived = stats.financesHistory[#stats.financesHistory]
-                self:storeMonthlyData(farm.farmId, completedYear, completedPeriod, archived)
-            end
+            -- Use stats.finances (live current-period accumulator) rather than
+            -- financesHistory[#financesHistory], because PERIOD_CHANGED fires
+            -- before FS22 archives the completed period into financesHistory.
+            -- At event time, financesHistory still holds the previous period's
+            -- data, causing an off-by-one that silently records the wrong month.
+            self:storeMonthlyData(farm.farmId, completedYear, completedPeriod, stats.finances)
         end
     end
 end
