@@ -12,16 +12,16 @@ PNL_manager.STAT_NAMES = {
     "newVehiclesCost", "soldVehicles", "newAnimalsCost", "soldAnimals",
     "constructionCost", "soldBuildings", "fieldPurchase", "fieldSelling",
     "vehicleRunningCost", "vehicleLeasingCost", "propertyMaintenance", "propertyIncome",
-    "productionCosts", "soldWood", "soldBales", "soldWool", "soldMilk", "soldProducts",
+    "productionCosts", "ProductionDeliveryCosts", "soldWood", "soldBales", "soldWool", "soldMilk", "soldProducts",
     "purchaseFuel", "purchaseSeeds", "purchaseFertilizer", "purchaseSaplings",
     "purchaseWater", "purchaseBales", "purchasePallets",
     "harvestIncome", "incomeBga", "missionIncome", "wagePayment", "other", "loanInterest"
 }
 
 PNL_manager.PNL_ITEMS = {
-    ["1.1"] = { isExpense = false, stats = {"harvestIncome", "soldProducts", "soldMilk", "soldWood", "soldBales", "soldAnimals", "incomeBga", "propertyIncome"} },
+    ["1.1"] = { isExpense = false, stats = {"harvestIncome", "soldProducts", "soldMilk", "soldWood", "soldBales", "soldWool", "soldAnimals", "incomeBga", "propertyIncome"} },
     ["1.2"] = { isExpense = false, stats = {"missionIncome"} },
-    ["1.3"] = { isExpense = true, stats = {"purchaseSeeds", "purchaseFertilizer", "purchaseFuel", "purchaseSaplings", "purchaseWater", "purchaseBales", "purchasePallets", "vehicleRunningCost", "vehicleLeasingCost", "propertyMaintenance", "productionCosts", "wagePayment", "animalUpkeep", "newAnimalsCost"} },
+    ["1.3"] = { isExpense = true, stats = {"purchaseSeeds", "purchaseFertilizer", "purchaseFuel", "purchaseSaplings", "purchaseWater", "purchaseBales", "purchasePallets", "vehicleRunningCost", "vehicleLeasingCost", "propertyMaintenance", "productionCosts", "ProductionDeliveryCosts", "wagePayment", "newAnimalsCost"} },
     ["2.1"] = { isExpense = false, loanComponent = "positive" },
     ["2.2"] = { isExpense = true, stats = {"loanInterest"}, loanComponent = "negative" },
     ["2.3"] = { isExpense = false, stats = {"other"} },
