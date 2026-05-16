@@ -270,7 +270,7 @@ function PNL_manager:saveToXMLFile(missionInfo)
     local savegameDirectory = g_currentMission.missionInfo.savegameDirectory
     if savegameDirectory == nil then
         return
-        
+    end
     print(string.format("HENNE_PNL: saveToXMLFile to %s", savegameDirectory))
     local filePath = savegameDirectory .. "/pnl_data.xml"
     local xmlFile = XMLFile.create("pnl_data", filePath, "pnl")
