@@ -34,32 +34,40 @@ function PNL_manager:loadMap()
 end
 
 function PNL_manager:onPeriodChanged()
-    if not g_currentMission:getIsServer() then
+    if not g_currentMission or not g_currentMission:getIsServer() then
         return
     end
     local env = g_currentMission.environment
+    if env == nil then
+        return
+    end
     local currentPeriod = env.currentPeriod
     local currentYear = env.currentYear
+    if currentPeriod == nil or currentYear == nil then
+        return
+    end
     local completedPeriod = currentPeriod - 1
     local completedYear = currentYear
     if completedPeriod < 0 then
         completedPeriod = 11
         completedYear = currentYear - 1
     end
-    if not self.hasBackfilledHistory then
-        self:backfillMissingHistory(completedYear, completedPeriod)
-        self.hasBackfilledHistory = true
-    end
+    -- Store the completed period's live stats.finances FIRST, before any
+    -- backfill. PERIOD_CHANGED fires before FS22 archives the completed
+    -- period's data, so stats.finances still holds the just-completed
+    -- period's running totals. Pass overwrite=true so the guard clause in
+    -- storeMonthlyData never silently drops this data.
     for _, farm in pairs(g_farmManager:getFarms()) do
         if farm.farmId ~= FarmManager.SPECTATOR_FARM_ID then
             local stats = farm.stats
-            -- Use stats.finances (live current-period accumulator) rather than
-            -- financesHistory[#financesHistory], because PERIOD_CHANGED fires
-            -- before FS22 archives the completed period into financesHistory.
-            -- At event time, financesHistory still holds the previous period's
-            -- data, causing an off-by-one that silently records the wrong month.
-            self:storeMonthlyData(farm.farmId, completedYear, completedPeriod, stats.finances)
+            if stats and stats.finances then
+                self:storeMonthlyData(farm.farmId, completedYear, completedPeriod, stats.finances, true)
+            end
         end
+    end
+    if not self.hasBackfilledHistory then
+        self:backfillMissingHistory(completedYear, completedPeriod)
+        self.hasBackfilledHistory = true
     end
 end
 
@@ -87,7 +95,7 @@ function PNL_manager:backfillMissingHistory(completedYear, completedPeriod)
     end
 end
 
-function PNL_manager:storeMonthlyData(farmId, year, period, financeStats)
+function PNL_manager:storeMonthlyData(farmId, year, period, financeStats, overwrite)
     if self.farmData[farmId] == nil then
         self.farmData[farmId] = { months = {}, loanPositive = 0, loanNegative = 0 }
     end
@@ -95,7 +103,10 @@ function PNL_manager:storeMonthlyData(farmId, year, period, financeStats)
     if fd.months[year] == nil then
         fd.months[year] = {}
     end
-    if fd.months[year][period] ~= nil then
+    if not overwrite and fd.months[year][period] ~= nil then
+        return
+    end
+    if financeStats == nil then
         return
     end
     local monthData = {}
@@ -208,7 +219,41 @@ function PNL_manager:getAvailableYears(farmId)
     return years
 end
 
+function PNL_manager:captureMissingMonth()
+    if not g_currentMission or not g_currentMission.environment then
+        return
+    end
+    local env = g_currentMission.environment
+    local currentPeriod = env.currentPeriod
+    local currentYear = env.currentYear
+    if currentPeriod == nil or currentYear == nil then
+        return
+    end
+    local completedPeriod = currentPeriod - 1
+    local completedYear = currentYear
+    if completedPeriod < 0 then
+        completedPeriod = 11
+        completedYear = currentYear - 1
+    end
+    for _, farm in pairs(g_farmManager:getFarms()) do
+        if farm.farmId ~= FarmManager.SPECTATOR_FARM_ID then
+            local fd = self.farmData[farm.farmId]
+            if fd == nil then
+                fd = { months = {}, loanPositive = 0, loanNegative = 0 }
+                self.farmData[farm.farmId] = fd
+            end
+            if fd.months[completedYear] == nil or fd.months[completedYear][completedPeriod] == nil then
+                local stats = farm.stats
+                if stats and stats.financesHistory and #stats.financesHistory > 0 then
+                    self:storeMonthlyData(farm.farmId, completedYear, completedPeriod, stats.financesHistory[#stats.financesHistory], true)
+                end
+            end
+        end
+    end
+end
+
 function PNL_manager:saveToXMLFile(missionInfo)
+    self:captureMissingMonth()
     local savegameDirectory = g_currentMission.missionInfo.savegameDirectory
     if savegameDirectory == nil then
         return
