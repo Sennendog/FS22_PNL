@@ -62,6 +62,8 @@ function PNL_manager:onPeriodChanged()
             local stats = farm.stats
             if stats and stats.finances then
                 self:storeMonthlyData(farm.farmId, completedYear, completedPeriod, stats.finances, true)
+            else
+                print(string.format("HENNE_PNL ERROR: missing financial data for farmId=%d year=%d period=%d", farm.farmId, completedYear, completedPeriod))
             end
         end
     end
@@ -107,6 +109,7 @@ function PNL_manager:storeMonthlyData(farmId, year, period, financeStats, overwr
         return
     end
     if financeStats == nil then
+        print(string.format("HENNE_PNL ERROR: financeStats is nil for farmId=%d year=%d period=%d", farmId, year, period))
         return
     end
     local monthData = {}
@@ -120,6 +123,7 @@ function PNL_manager:storeMonthlyData(farmId, year, period, financeStats, overwr
     fd.loanPositive = 0
     fd.loanNegative = 0
     fd.months[year][period] = monthData
+    print(string.format("HENNE_PNL: stored monthly data farmId=%d year=%d period=%d loanPos=%.2f loanNeg=%.2f", farmId, year, period, monthData.loanPositive, monthData.loanNegative))
 end
 
 function PNL_manager:trackLoan(farmId, amount)
@@ -246,6 +250,8 @@ function PNL_manager:captureMissingMonth()
                 local stats = farm.stats
                 if stats and stats.financesHistory and #stats.financesHistory > 0 then
                     self:storeMonthlyData(farm.farmId, completedYear, completedPeriod, stats.financesHistory[#stats.financesHistory], true)
+                else
+                    print(string.format("HENNE_PNL ERROR: no financesHistory for farmId=%d year=%d period=%d", farm.farmId, completedYear, completedPeriod))
                 end
             end
         end
@@ -340,6 +346,17 @@ function PNL_manager:loadFromXMLFile()
     end
     xmlFile:delete()
     self.hasBackfilledHistory = (next(self.farmData) ~= nil)
+    local totalYears = 0
+    local totalPeriods = 0
+    for _, fd in pairs(self.farmData) do
+        for year, months in pairs(fd.months) do
+            totalYears = totalYears + 1
+            for _ in pairs(months) do
+                totalPeriods = totalPeriods + 1
+            end
+        end
+    end
+    print(string.format("HENNE_PNL: loaded %d years, %d periods from pnl_data.xml (%d farms)", totalYears, totalPeriods, farmIdx))
 end
 
 g_pnl_manager = PNL_manager.new()
