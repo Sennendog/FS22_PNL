@@ -33,6 +33,10 @@ function PNL_manager:loadMap()
     g_messageCenter:subscribe(MessageType.PERIOD_CHANGED, self.onPeriodChanged, self)
 end
 
+function PNL_manager:deleteMap()
+    g_messageCenter:unsubscribe(MessageType.PERIOD_CHANGED, self)
+end
+
 function PNL_manager:onPeriodChanged()
     if not g_currentMission or not g_currentMission:getIsServer() then
         return
