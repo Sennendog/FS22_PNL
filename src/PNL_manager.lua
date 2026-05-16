@@ -38,6 +38,7 @@ function PNL_manager:deleteMap()
 end
 
 function PNL_manager:onPeriodChanged()
+    print(string.format("HENNE_PNL: onPeriodChanged triggered, capturing data for completed period"))
     if not g_currentMission or not g_currentMission:getIsServer() then
         return
     end
@@ -71,6 +72,7 @@ function PNL_manager:onPeriodChanged()
             end
         end
     end
+    print(string.format("HENNE_PNL: captured data for completedYear=%d completedPeriod=%d, now backfilling history if needed", completedYear, completedPeriod))
     if not self.hasBackfilledHistory then
         self:backfillMissingHistory(completedYear, completedPeriod)
         self.hasBackfilledHistory = true
@@ -78,6 +80,7 @@ function PNL_manager:onPeriodChanged()
 end
 
 function PNL_manager:backfillMissingHistory(completedYear, completedPeriod)
+    print(string.format("HENNE_PNL: backfilling history for completedYear=%d completedPeriod=%d", completedYear, completedPeriod))
     for _, farm in pairs(g_farmManager:getFarms()) do
         if farm.farmId ~= FarmManager.SPECTATOR_FARM_ID then
             local stats = farm.stats
@@ -267,7 +270,8 @@ function PNL_manager:saveToXMLFile(missionInfo)
     local savegameDirectory = g_currentMission.missionInfo.savegameDirectory
     if savegameDirectory == nil then
         return
-    end
+        
+    print(string.format("HENNE_PNL: saveToXMLFile to %s", savegameDirectory))
     local filePath = savegameDirectory .. "/pnl_data.xml"
     local xmlFile = XMLFile.create("pnl_data", filePath, "pnl")
     if xmlFile == nil then
@@ -297,7 +301,7 @@ function PNL_manager:saveToXMLFile(missionInfo)
         farmIdx = farmIdx + 1
     end
     xmlFile:save()
-    xmlFile:delete()
+    xmlFile:delete() 
 end
 
 function PNL_manager:loadFromXMLFile()
@@ -305,6 +309,7 @@ function PNL_manager:loadFromXMLFile()
     if savegameDirectory == nil then
         return
     end
+    print(string.format("HENNE_PNL: loadFromXMLFile from %s", savegameDirectory))
     local filePath = savegameDirectory .. "/pnl_data.xml"
     local xmlFile = XMLFile.loadIfExists("pnl_data", filePath, "pnl")
     if xmlFile == nil then
