@@ -130,7 +130,11 @@ function PNL_manager:storeMonthlyData(farmId, year, period, financeStats, overwr
     fd.loanPositive = 0
     fd.loanNegative = 0
     fd.months[year][period] = monthData
-    print(string.format("HENNE_PNL: stored monthly data farmId=%d year=%d period=%d loanPos=%.2f loanNeg=%.2f", farmId, year, period, monthData.loanPositive, monthData.loanNegative))
+    local statsStr = ""
+    for _, statName in ipairs(PNL_manager.STAT_NAMES) do
+        statsStr = statsStr .. statName .. "=" .. (financeStats[statName] or 0) .. " "
+    end
+    print(string.format("HENNE_PNL: stored monthly data farmId=%d year=%d period=%d [%s]", farmId, year, period, statsStr))
 end
 
 function PNL_manager:trackLoan(farmId, amount)
@@ -256,6 +260,7 @@ function PNL_manager:captureMissingMonth()
             if fd.months[completedYear] == nil or fd.months[completedYear][completedPeriod] == nil then
                 local stats = farm.stats
                 if stats and stats.financesHistory and #stats.financesHistory > 0 then
+                    print(string.format("HENNE_PNL ERROR: captureMissingMonthfor farmId=%d year=%d period=%d, capturing from financesHistory", farm.farmId, completedYear, completedPeriod))
                     self:storeMonthlyData(farm.farmId, completedYear, completedPeriod, stats.financesHistory[#stats.financesHistory], true)
                 else
                     print(string.format("HENNE_PNL ERROR: no financesHistory for farmId=%d year=%d period=%d", farm.farmId, completedYear, completedPeriod))
